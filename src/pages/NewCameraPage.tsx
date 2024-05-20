@@ -6,12 +6,13 @@ import { TextInput } from "../components/TextInput";
 import AlertTitle from "@mui/material/AlertTitle";
 import * as z from "zod";
 import { BackButton } from "../components/BackButton";
-import { useAppDispatch, useZodForm } from "../hooks";
+import { useAppDispatch, useSaveState, useZodForm } from "../hooks";
 import { BooleanInput } from "../components/BooleanInput";
 import { SubmitButton } from "../components/SubmitButton";
 import { addCamera } from "../store/cameraSlice";
 import { CameraId, FilmFormat } from "../types";
 import { v4 } from "uuid";
+import { useNavigate } from "react-router";
 
 type FormInputs = {
   name: string;
@@ -39,11 +40,13 @@ const schema = z.object({
 
 export const NewCameraPage: FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const saveState = useSaveState();
   const { handleSubmit, control } = useZodForm<FormInputs>(
     { defaultValues },
     schema,
   );
-  const onSubmit: SubmitHandler<FormInputs> = (data) => {
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     const id: CameraId = `camera_${v4()}`;
     dispatch(
       addCamera({
@@ -60,6 +63,8 @@ export const NewCameraPage: FC = () => {
         },
       }),
     );
+    await saveState();
+    navigate(`/camera/${id}`);
   };
 
   return (

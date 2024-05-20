@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 import Chip from "@mui/material/Chip";
 import ListItemButton from "@mui/material/ListItemButton";
 
@@ -28,7 +28,7 @@ export const CameraPage: FC = () => {
   }
 
   return (
-    <Box>
+    <Stack spacing={1} mt={1}>
       <BackButton />
       <Typography variant="h4" color="text.primary">
         {camera.name}
@@ -36,22 +36,28 @@ export const CameraPage: FC = () => {
       <Typography color="text.secondary">{camera.description}</Typography>
       <Chip label={camera.filmFormat} />
       {camera.hasLightMeter && <Chip label="Has Light Meter" />}
-      <List>
-        {camera.rolls
-          .filter((roll) => roll.visible)
-          .map((roll) => {
-            return (
-              <RouterLink
-                key={roll.id}
-                to={`/camera/${camera.id}/roll/${roll.id}`}
-              >
-                <ListItemButton key={roll.id}>
-                  <Typography color="text.primary">{roll.name}</Typography>
-                </ListItemButton>
-              </RouterLink>
-            );
-          })}
-      </List>
-    </Box>
+      {camera.rolls.length === 0 ? (
+        <Typography color="text.primary">
+          No Rolls for this camera yet
+        </Typography>
+      ) : (
+        <List>
+          {camera.rolls
+            .filter((roll) => roll.visible)
+            .map((roll) => {
+              return (
+                <RouterLink
+                  key={roll.id}
+                  to={`/camera/${camera.id}/roll/${roll.id}`}
+                >
+                  <ListItemButton key={roll.id}>
+                    <Typography color="text.primary">{roll.name}</Typography>
+                  </ListItemButton>
+                </RouterLink>
+              );
+            })}
+        </List>
+      )}
+    </Stack>
   );
 };

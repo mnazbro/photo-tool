@@ -15,14 +15,18 @@ export const activeSlice = createSlice({
   name: "active",
   initialState,
   reducers: {
-    setActiveCamera(state, action: PayloadAction<CameraId | null>) {
-      state.cameraId = action.payload;
+    setActiveCamera(state, { payload }: PayloadAction<CameraId | null>) {
+      state.cameraId = payload;
     },
-    setActiveRoll(state, action: PayloadAction<RollId | null>) {
-      state.rollId = action.payload;
+    setActiveRoll(state, { payload }: PayloadAction<RollId | null>) {
+      state.rollId = payload;
+    },
+    setActiveState(state, { payload }: PayloadAction<ActiveState>) {
+      state = payload;
     },
   },
 });
 
-export const { setActiveCamera, setActiveRoll } = activeSlice.actions;
+export const { setActiveCamera, setActiveRoll, setActiveState } =
+  activeSlice.actions;
 export const activeReducer = activeSlice.reducer;

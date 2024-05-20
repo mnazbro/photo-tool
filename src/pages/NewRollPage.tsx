@@ -1,10 +1,15 @@
 import Alert from "@mui/material/Alert";
 
-import type { FC } from "react";
+import { useState, type FC } from "react";
 import { type SubmitHandler } from "react-hook-form";
 import { TextInput } from "../components/TextInput";
 import { addRoll } from "../store/cameraSlice";
-import { useAppDispatch, useAppSelector, useZodForm } from "../hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useSaveState,
+  useZodForm,
+} from "../hooks";
 import { v4 } from "uuid";
 import * as z from "zod";
 import { CameraId, Iso, RollId } from "../types";
@@ -50,6 +55,7 @@ const schema = z.object({
 
 export const NewRollPage: FC = () => {
   const dispatch = useAppDispatch();
+  const saveState = useSaveState();
   const { cameraId } = useParams<{ cameraId: CameraId }>();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
@@ -67,7 +73,7 @@ export const NewRollPage: FC = () => {
     },
     schema,
   );
-  const onSubmit: SubmitHandler<FormInputs> = (data) => {
+  const onSubmit: SubmitHandler<FormInputs> = async (data) => {
     const rollId: RollId = `roll_${v4()}`;
     dispatch(
       addRoll({
@@ -88,6 +94,7 @@ export const NewRollPage: FC = () => {
       }),
     );
     dispatch(setActiveRoll(rollId));
+    await saveState();
     navigate("/");
     enqueueSnackbar({ message: "Added a new roll!", variant: "success" });
   };

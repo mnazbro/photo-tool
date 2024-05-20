@@ -1,9 +1,9 @@
-import type { FC } from "react";
+import { useEffect, type FC } from "react";
 import { ThemeProvider } from "@mui/material";
 import { RouterProvider } from "react-router";
 import { darkTheme, lightTheme } from "./themes";
 import { router } from "./router";
-import { useAppSelector } from "./hooks";
+import { useAppSelector, useLoadState } from "./hooks";
 import { SnackbarProvider } from "notistack";
 
 export const App: FC = () => {

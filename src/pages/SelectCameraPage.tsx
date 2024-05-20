@@ -7,7 +7,7 @@ import Avatar from "@mui/material/Avatar";
 import ListItemText from "@mui/material/ListItemText";
 
 import type { FC } from "react";
-import { useAppDispatch, useAppSelector } from "../hooks";
+import { useAppDispatch, useAppSelector, useSaveState } from "../hooks";
 import { setActiveCamera } from "../store/activeSlice";
 import { useNavigate } from "react-router";
 import { useSnackbar } from "notistack";
@@ -17,11 +17,13 @@ import { BackButton } from "../components/BackButton";
 export const SelectCameraPage: FC = () => {
   const cameras = useAppSelector((state) => state.camera.cameras);
   const dispatch = useAppDispatch();
+  const saveState = useSaveState();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
-  const handleClick = (camera: Camera) => {
+  const handleClick = async (camera: Camera) => {
     dispatch(setActiveCamera(camera.id));
+    await saveState();
     navigate("/");
     enqueueSnackbar({
       message: `${camera.name} is now active`,

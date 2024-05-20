@@ -12,6 +12,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@capacitor-community/safe-area": "^6.0.0-alpha.3",
     "@capacitor/android": "^6.0.0",
     "@capacitor/app": "^6.0.0",
     "@capacitor/camera": "^6.0.0",
@@ -21,6 +22,7 @@
     "@capacitor/keyboard": "^6.0.0",
     "@capacitor/preferences": "^6.0.0",
     "@capacitor/status-bar": "^6.0.0",
+    "@capacitor/text-zoom": "^6.0.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@fontsource/roboto": "^5.0.13",

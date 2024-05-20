@@ -13,11 +13,14 @@ export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
-    setDarkMode(state, action: PayloadAction<boolean>) {
-      state.isDarkMode = action.payload;
+    setDarkMode(state, { payload }: PayloadAction<boolean>) {
+      state.isDarkMode = payload;
+    },
+    setAppState(state, { payload }: PayloadAction<AppState>) {
+      state = payload;
     },
   },
 });
 
-export const { setDarkMode } = appSlice.actions;
+export const { setDarkMode, setAppState } = appSlice.actions;
 export const appReducer = appSlice.reducer;
